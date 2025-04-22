@@ -17,17 +17,17 @@ public class LoginController {
 
     @GetMapping("/")
     public String loginPage() {
-        return "Login.html";
+        return "login";
     }
 
-    @PostMapping("/Login")
-    public String handleLogin(@RequestParam String username, Model model) {
+    @PostMapping("/login")
+    public String handleLogin(@RequestParam String username, String pass, Model model) {
         List<Book> books = bookService.getAllBooks();
 
-        if (username.equalsIgnoreCase("admin")) {
+        if (username.equalsIgnoreCase("admin") && pass.equalsIgnoreCase("admin")) {
             model.addAttribute("books", books);
             return "admin-view"; // shows full book info
-        } else if (username.equalsIgnoreCase("user")) {
+        } else if (username.equalsIgnoreCase("user") && pass.equalsIgnoreCase("user")) {
             model.addAttribute("titles", books.stream().map(Book::getTitle).toList());
             return "user-view";
         } else {
